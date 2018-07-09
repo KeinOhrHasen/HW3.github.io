@@ -1,0 +1,39 @@
+body{
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+
+main{
+  width: 1000px;
+  height: 1600px;
+  margin: 0 auto;
+  background-color: rgb(17, 221, 206);
+  color: #000;
+}
+
+.tags{
+  
+  width : 150px;
+  text-align: center;
+}
+
+.tag{
+  display: block;
+  background-color: #bfcec0;
+  padding: 10px;
+  margin: 5px;
+  width: 150px;
+  }
+
+/* .tags >li::after{
+  content: "<i class="far fa-square"></i>"
+  } */
+
+.choosed{
+  background-color: rgb(60, 167, 51)
+}
+
+/* .unchoosed{
+  background-color: rgb(149, 153, 148)
+} */
