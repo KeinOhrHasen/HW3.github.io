@@ -1,14 +1,12 @@
 
-//  download the JSON fole
+//  download the JSON file
 window.onload = () =>{
   fetch("https://api.myjson.com/bins/152f9j")
   .then(response => {
     response.json().then(data => {
 
       // store data in localStorage
-      console.log(data.data[1].createdAt);
       const myJSON = JSON.stringify(data);
-      // console.log(myJSON);
       localStorage.setItem("testJSON", myJSON);
     });
   })
@@ -20,8 +18,33 @@ window.onload = () =>{
 let text = localStorage.getItem("testJSON");
 obj = JSON.parse(text);
 build(obj.data.sort(date_sort_desc));
+
+// set previous sorting configuration
+if (localStorage.getItem("testJSON")){
+  let sortConf = localStorage.getItem("sortConf");
+  if (sortConf == 'dateAcs'){ 
+    build(obj.data.sort(date_sort_asc));
+  }
+  else if (sortConf == 'dateDecs'){ 
+    build(obj.data.sort(date_sort_desc));
+  } else {
+    
+    let lastTags =JSON.parse(localStorage.getItem("sortConf"));
+    let newQbj = compare(obj, lastTags);
+    simmulateClick(lastTags);
+    build(newQbj.data.sort(tags_sort));
+  }
+}
 }
 
+function simmulateClick(some){
+  let  message;
+    message = "Content sorted by last choosed tags from previous session : " ;
+    for(let i = 0; i < some.length; i++){
+      message += some[i] + "  ";
+    }
+  alert(message);
+}
 
 // Sorting by date
 let date_sort_asc = function (item1, item2) {
@@ -53,13 +76,13 @@ return 0;
 }
 
 
-function build(array ){
-  delete_post();
+function build(array){
   let article_box = document.getElementById("article_box");
   article_box.innerHTML = "";
-  let one_art = document.createElement('div');
+  
   
   for(let i = 0; i < array.length; i++){
+    let one_art = document.createElement('div');
     let title = document.createElement('div');
     let descr = document.createElement('div');
     let image = document.createElement('img');
@@ -100,7 +123,8 @@ function build(array ){
     one_art.appendChild(rubbish);
     article_box.appendChild(one_art);
   }
-  
+
+
 
 }
 
@@ -109,23 +133,30 @@ function a_d_tougle(){
   if (!date_button.classList.contains("asc_ord")){
     date_button.classList.add("asc_ord");
     date_button.classList.remove("desc_ord");
+
+    // save sort Type to LocalStorage
+    localStorage.setItem('sortConf', 'dateAcs');
     build(obj.data.sort(date_sort_asc));
+
+
   }else{
     date_button.classList.remove("asc_ord");
     date_button.classList.add("desc_ord");
+
+    // save sort Type to LocalStorage
+    localStorage.setItem('sortConf', 'dateDecs');
     build(obj.data.sort(date_sort_desc));
 
   }
 }
 
 
-// to compare object
+// compare object and save as property number of occurs
 function compare(object, tags){
   for (let q = 0; q < 50; q++){
     let occurs = 0;
     for(let w = 0; w < object.data[q].tags.length; w++){
       if (tags.includes(object.data[q].tags[w]) ){
-        // console.log(object.data[q].tags[w]);
         occurs += 1;
       }
     };
@@ -135,27 +166,34 @@ function compare(object, tags){
   return object
 }
 
-// console.log(compare(obj, choosedTags));
+
+
 // TAGS query
 let choosedTags = [];
+let text = localStorage.getItem("testJSON");
+obj = JSON.parse(text);
 
-setTimeout(function(){
-
-// make tagArray
+  // make tagArray
+function makeTagArray(){
   let tagArray = [];
   for(let i = 0; i < 50; i++){
-    // console.log(obj.data[i].tags);
     for(let j = 0; j < obj.data[i].tags.length; j++){
       if (!tagArray.includes(obj.data[i].tags[j]) ){
         tagArray.push(obj.data[i].tags[j]);
       }
     };
   };
-  
+  return tagArray
+}
+tagArray = makeTagArray();
+
+setTimeout(function(){
+
 
   // create list of elements in page
   let tagListNode = document.createElement("ul");
   tagListNode.classList.add('tag_wrp');
+
 
   for(let k = 0; k < tagArray.length; k++){
     let new_li = document.createElement("li");
@@ -185,25 +223,30 @@ setTimeout(function(){
         choosedTags.splice(choosedTags.indexOf(curr_tag), 1);
       }
       
+      
+      // save sort Type to LocalStorage
+      localStorage.setItem('sortConf', JSON.stringify(choosedTags));
+
       let bro = compare(obj, choosedTags);
       build(bro.data.sort(tags_sort));
-
     }, false)
 
 
     tagListNode.appendChild(new_li);
-    }
+  }
   document.getElementById("taglist_wrp").appendChild(tagListNode);
   
 
 
-// put action on Date button
-let date_button = document.getElementById("date_s");
-date_button.addEventListener("click", a_d_tougle, false );
+  // put action on Date button
+  let date_button = document.getElementById("date_s");
+  date_button.addEventListener("click", a_d_tougle, false );
 
-}, 100
+  }, 100
 )
 
+
+// make time more user-friendly
 function beautifyTime(timeString){
   let outPut = ''
   let date = new Date(timeString);
@@ -225,18 +268,3 @@ function beautifyTime(timeString){
   ].join(', ')}`
   return outPut
 }
-
-
-function delete_post(){
-  rubbish_q = document.getElementsByClassName('rb');
-  for(let i = 0; i < rubbish_q.length; i++){
-    
-    let item = rubbish_q[i];
-    item.addEventListener('click', function(e){
-     
-      document.getElementById(e.target.id).parentElement.style.display = 'none';
-    })
-  }
-}
-
-// delete_post(); 
