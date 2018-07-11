@@ -103,6 +103,7 @@ function build(array){
     title.appendChild(t);
     descr.appendChild(tt);
     time.appendChild(ttt);
+    rubbish.innerHTML = "X";
 
     let tags_wrp_article = document.createElement('div');
     tags_wrp_article.setAttribute('class', 'tags_wrp_article');
@@ -125,7 +126,7 @@ function build(array){
   }
 
 
-
+  delete_post();
 }
 
 function a_d_tougle(){
@@ -267,4 +268,15 @@ function beautifyTime(timeString){
   date.getFullYear()
   ].join(', ')}`
   return outPut
+}
+
+// delete post
+function delete_post(){
+  rubbish_q = document.querySelectorAll('.rb');
+  for(let i = 0; i < 50; i++){
+    let item = rubbish_q[i];
+    item.addEventListener('click', function(e){
+      document.getElementById(e.target.id).parentElement.style.display = 'none';
+    })
+  }
 }
