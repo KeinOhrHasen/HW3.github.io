@@ -154,3 +154,10 @@ main{
 #myInput:focus{
   border: 2px solid #140405;
 }
+
+.fa-arrow-circle-up{
+  position: fixed;
+  bottom: 50px;
+  left:50px;
+  font-size: 60px
+}
