@@ -61,12 +61,24 @@ main{
 }
 
 .rb{
-  bottom: 10px;
+  top: 10px;
   right: 10px;
   width:50px;
   height:50px;
-  background-color: #750970;
-  display: none;
+  background-color: #c7bdc67a;
+  position: absolute;
+  color:#000; 
+  text-align: center;
+  font-size: 30px;
+  font-family: cursive;
+  line-height: 50px;
+  border-radius: 50%;
+}
+
+.rb:hover{
+  background-color: rgb(44, 41, 41);
+  color: #FFF;
+  cursor: pointer;
 }
 
 .one_art{
@@ -76,14 +88,17 @@ main{
   margin: 10px;
   background-color: aliceblue;
   margin: 0 auto; 
-  display: relative;
+  position: relative;
 }
 
 .title{
+  width: 215px;
   padding:10px; 
   font-size: 20px;
   font-weight: 600;
-  height: 40px;
+  height: 32px;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 
 .descr{
