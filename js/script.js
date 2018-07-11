@@ -280,3 +280,23 @@ function delete_post(){
     })
   }
 }
+
+function searchFunction() {
+  // Declare variables
+  var input, filter, li, a, i;
+  input = document.getElementById('myInput');
+  filter = input.value.toUpperCase();
+  articles = document.getElementsByClassName('one_art');
+  console.log("f")
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < articles.length; i++) {
+      console.log("s")
+      a = articles[i].getElementsByClassName("title")[0];
+      if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        articles[i].style.display = "";
+      } else {
+        articles[i].style.display = "none";
+      }
+  }
+}
