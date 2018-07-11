@@ -18,20 +18,19 @@
 </head>
 
 <body>
-
-
 <main id="main_id">
 <div class="sort_menu">
   <div  class="taglist_wr" id="taglist_wrp">Sort by tags</div>
   <div id="date_s" class="desc_ord" >Sort by date</div>
-  <div id="search_s">Search<i class="fas fa-search"></i></div>
+  <div id="search_s">Search
+    <form action="">
+      <input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names..">
+    </form>
+ 
+    <i class="fas fa-search"></i></div>
 </div>
 
 <article id="article_box"></article>
-
 </main>
-
-
 </body>
-
 </html>
